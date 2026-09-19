@@ -1,642 +1,528 @@
+```html
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Saem Physics | Understand the why behind physics</title>
-    <meta name="description" content="Visual explanations, careful problem-solving and ideas that stay with you long after the formula.">
+    <title>Eric Lander | Advanced Biology for NEET & MIT</title>
     
-    <!-- Preconnect to Google Fonts -->
+    <!-- Fonts: Inter for UI, Lora for 3b1b-style academic headings -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <!-- Load Inter (UI) and Merriweather (Prose) -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
     
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Lora', 'serif'],
+                    },
+                    colors: {
+                        // 3b1b inspired dark palette
+                        base: '#0f0f11',
+                        surface: '#1a1a1e',
+                        surface2: '#242429',
+                        accent: '#3b82f6',     // Blue for MIT/Science
+                        biology: '#10b981',    // Emerald for Biology
+                    }
+                }
+            }
+        }
+    </script>
+
     <style>
-        :root {
-            /* Light Theme (Default) */
-            --bg-color: #fdfdfd;
-            --bg-alt: #f5f5f7;
-            --text-main: #1d1d1f;
-            --text-muted: #6e6e73;
-            --accent: #2962ff;
-            --accent-hover: #0039cb;
-            --border-color: #e5e5ea;
-            --card-bg: #ffffff;
-            --card-shadow: 0 12px 24px rgba(0,0,0,0.06);
-            --header-bg: rgba(253, 253, 253, 0.9);
-            
-            /* Typography */
-            --font-ui: 'Inter', system-ui, sans-serif;
-            --font-prose: 'Merriweather', Georgia, serif;
-            
-            /* Spacing */
-            --section-pad: 5rem;
-            --container-w: 1100px;
-        }
-
-        [data-theme="dark"] {
-            /* Dark Theme */
-            --bg-color: #0d0d0d;
-            --bg-alt: #141414;
-            --text-main: #f5f5f7;
-            --text-muted: #a1a1a6;
-            --accent: #4dabf7;
-            --accent-hover: #74c0fc;
-            --border-color: #2d2d2d;
-            --card-bg: #1a1a1a;
-            --card-shadow: 0 12px 24px rgba(0,0,0,0.4);
-            --header-bg: rgba(13, 13, 13, 0.9);
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
-
         body {
-            font-family: var(--font-ui);
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            line-height: 1.6;
-            -webkit-font-smoothing: antialiased;
-            overflow-x: hidden;
-            transition: background-color 0.3s ease, color 0.3s ease;
+            background-color: #0f0f11;
+            color: #e2e8f0;
         }
 
-        h1, h2, h3, h4 {
-            font-family: var(--font-prose);
-            color: var(--text-main);
-            line-height: 1.2;
-            margin-bottom: 1rem;
-        }
-        h1 { font-size: 3.5rem; letter-spacing: -0.02em; font-weight: 700; }
-        h2 { font-size: 2.5rem; font-weight: 700; }
-        h3 { font-size: 1.5rem; font-weight: 700; }
-        
-        p {
-            font-family: var(--font-prose);
-            font-size: 1.15rem;
-            color: var(--text-muted);
-            margin-bottom: 1.5rem;
-            font-weight: 300;
+        /* 3b1b Style subtle grid background */
+        .bg-math-grid {
+            background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
         }
 
-        a {
-            color: var(--accent);
+        /* WhatsApp Pulsing Animation */
+        .whatsapp-float {
+            position: fixed;
+            width: 60px;
+            height: 60px;
+            bottom: 30px;
+            right: 30px;
+            background-color: #25d366;
+            color: #FFF;
+            border-radius: 50px;
+            text-align: center;
+            font-size: 30px;
+            box-shadow: 2px 2px 3px #999;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             text-decoration: none;
-            transition: color 0.2s ease, transform 0.2s ease;
-        }
-        a:hover { color: var(--accent-hover); }
-
-        .eyebrow {
-            font-family: var(--font-ui);
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: var(--text-muted);
-            margin-bottom: 0.75rem;
-            display: block;
+            transition: all 0.3s ease;
         }
 
-        .container {
-            max-width: var(--container-w);
-            margin: 0 auto;
-            padding: 0 2rem;
+        .whatsapp-float:hover {
+            background-color: #128c7e;
         }
-        section { padding: var(--section-pad) 0; }
-        .bg-alt { background-color: var(--bg-alt); }
-        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
-        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
-        .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
 
-        .btn {
-            display: inline-flex; align-items: center; justify-content: center;
-            padding: 0.75rem 1.5rem; border-radius: 8px; font-weight: 500; font-family: var(--font-ui);
-            font-size: 0.95rem; cursor: pointer; transition: all 0.2s ease;
+        .pulse {
+            animation: pulse-animation 2s infinite;
         }
-        .btn-primary { background-color: var(--text-main); color: var(--bg-color) !important; box-shadow: 0 4px 14px rgba(0,0,0,0.1); }
-        .btn-primary:hover { transform: translateY(-1px); opacity: 0.9; }
 
-        header {
-            padding: 1.25rem 0; background: var(--header-bg); backdrop-filter: blur(10px);
-            position: sticky; top: 0; z-index: 100; border-bottom: 1px solid var(--border-color);
-            transition: box-shadow 0.3s ease, background 0.3s ease, padding 0.3s ease;
+        @keyframes pulse-animation {
+            0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
+            70% { box-shadow: 0 0 0 20px rgba(37, 211, 102, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
         }
-        header.scrolled { padding: 0.75rem 0; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08); }
-        
-        .nav-inner { display: flex; justify-content: space-between; align-items: center; }
-        .brand { font-size: 1.25rem; font-weight: 700; color: var(--text-main); display: flex; align-items: center; gap: 0.5rem; }
-        .brand span { color: var(--accent); font-size: 1.5rem; font-family: var(--font-prose); }
-        nav { display: flex; gap: 2rem; align-items: center; flex-wrap: wrap; }
-        nav a { font-family: var(--font-ui); font-size: 0.9rem; font-weight: 500; color: var(--text-muted); }
-        nav a:hover { color: var(--text-main); }
-        .nav-youtube { font-weight: 600; color: #ff0000 !important; }
 
-        .theme-toggle {
-            background: none; border: none; color: var(--text-main); font-size: 1.2rem;
-            cursor: pointer; padding: 0.5rem; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            transition: background 0.2s;
+        /* Gradient Text */
+        .text-gradient {
+            background: linear-gradient(90deg, #3b82f6, #10b981);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
-        .theme-toggle:hover { background: var(--border-color); }
-        .theme-toggle .sun-icon { display: none; }
-        [data-theme="dark"] .theme-toggle .moon-icon { display: none; }
-        [data-theme="dark"] .theme-toggle .sun-icon { display: block; }
 
-        .hero { padding: 6rem 0 4rem; text-align: center; }
-        .hero h1 { font-size: 4rem; max-width: 800px; margin: 0 auto 1.5rem; }
-        .hero h1 em { color: var(--accent); font-style: italic; }
-        .hero p { max-width: 600px; margin: 0 auto 1.5rem; font-size: 1.25rem; }
-        .tags { font-size: 0.9rem; color: var(--text-muted); font-weight: 500; font-family: var(--font-ui); margin-bottom: 2rem; display: flex; justify-content: center; gap: 0.5rem; flex-wrap: wrap; }
-        .tag-pill { background: var(--border-color); padding: 0.2rem 0.8rem; border-radius: 20px; font-size: 0.8rem; }
-        
-        .quick-links { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 2rem; }
-        .quick-link-badge {
-            background: rgba(41, 98, 255, 0.1); color: var(--accent); padding: 0.5rem 1rem;
-            border-radius: 20px; font-size: 0.85rem; font-weight: 600; border: 1px solid transparent;
+        /* Custom Scrollbar for a premium feel */
+        ::-webkit-scrollbar {
+            width: 8px;
         }
-        [data-theme="dark"] .quick-link-badge { background: rgba(77, 171, 247, 0.1); color: var(--accent); }
-        .quick-link-badge:hover { border-color: var(--accent); transform: translateY(-2px); }
-
-        .section-header { margin-bottom: 3rem; }
-        .section-header.center { text-align: center; }
-        
-        .card {
-            background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px;
-            overflow: hidden; transition: transform 0.2s ease, box-shadow 0.2s ease;
-            display: flex; flex-direction: column; height: 100%;
+        ::-webkit-scrollbar-track {
+            background: #0f0f11;
         }
-        .card:hover { transform: translateY(-4px); box-shadow: var(--card-shadow); border-color: var(--text-muted); }
-        .card-thumb {
-            aspect-ratio: 16 / 9; background: #111; position: relative;
-            display: flex; align-items: center; justify-content: center; border-bottom: 1px solid var(--border-color);
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 4px;
         }
-        .card-thumb::before { content: "▶"; color: rgba(255,255,255,0.8); font-size: 2rem; transition: transform 0.2s ease; }
-        .card:hover .card-thumb::before { transform: scale(1.1); color: #fff; }
-        
-        .thumb-mech { background: linear-gradient(135deg, #1e1e2f 0%, #2a2a40 100%); }
-        .thumb-math { background: linear-gradient(135deg, #1c2a38 0%, #25394d 100%); }
-        .thumb-prob { background: linear-gradient(135deg, #2a1c24 0%, #3d2733 100%); }
-        .thumb-rev { background: linear-gradient(135deg, #1c2e27 0%, #253f35 100%); }
-
-        .card-content { padding: 1.5rem; flex-grow: 1; display: flex; flex-direction: column; }
-        .card-content h3 { font-size: 1.1rem; margin-bottom: 0.5rem; font-family: var(--font-ui); color: var(--text-main); }
-        .card-content p { font-size: 0.9rem; margin-bottom: 0; font-family: var(--font-ui); color: var(--text-muted); }
-
-        .manim-container {
-            background: #000; border-radius: 12px; overflow: hidden; position: relative;
-            box-shadow: var(--card-shadow); aspect-ratio: 16 / 9; display: flex; align-items: center; justify-content: center;
-        }
-        .manim-container.small { aspect-ratio: 4/3; margin-top: 1rem; border-radius: 8px; }
-        .manim-grid-bg {
-            position: absolute; inset: 0; background-size: 40px 40px;
-            background-image: linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px),
-                              linear-gradient(to bottom, rgba(255,255,255,0.05) 1px, transparent 1px);
-        }
-        .manim-text { color: rgba(255,255,255,0.6); font-family: var(--font-ui); font-size: 0.9rem; position: relative; z-index: 1; text-align: center; }
-
-        .filter-container { display: flex; gap: 0.75rem; justify-content: center; margin-bottom: 3rem; flex-wrap: wrap; }
-        .filter-btn {
-            padding: 0.5rem 1.25rem; border-radius: 30px; border: 1px solid var(--border-color);
-            background: transparent; color: var(--text-main); cursor: pointer;
-            font-family: var(--font-ui); font-weight: 500; font-size: 0.9rem; transition: all 0.2s ease;
-        }
-        .filter-btn:hover { border-color: var(--text-muted); }
-        .filter-btn.active { background: var(--text-main); color: var(--bg-color); border-color: var(--text-main); }
-
-        .playlist-list { list-style: none; display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem; }
-        .playlist-link {
-            display: block; padding: 1.25rem; background: var(--card-bg); border: 1px solid var(--border-color);
-            border-radius: 8px; font-family: var(--font-ui); font-weight: 600; color: var(--text-main);
-            transition: all 0.2s ease; height: 100%; position: relative; overflow: hidden;
-        }
-        .playlist-link::before {
-            content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%;
-            background: var(--accent); transform: scaleY(0); transition: transform 0.2s ease; transform-origin: bottom;
-        }
-        .playlist-link:hover { border-color: var(--accent); background: var(--bg-alt); color: var(--accent); transform: translateX(4px); }
-        .playlist-link:hover::before { transform: scaleY(1); }
-        .playlist-link span.meta { display: block; font-size: 0.8rem; color: var(--text-muted); font-weight: 400; margin-top: 0.5rem; text-transform: uppercase; letter-spacing: 0.05em;}
-        .playlist-tag { position: absolute; top: 1.25rem; right: 1.25rem; font-size: 0.7rem; padding: 0.2rem 0.5rem; background: var(--bg-color); border: 1px solid var(--border-color); border-radius: 12px; color: var(--text-muted); }
-
-        .resource-card {
-            display: flex; align-items: center; justify-content: space-between; padding: 1.5rem;
-            border: 2px solid var(--border-color); border-radius: 12px; color: var(--text-main);
-            font-family: var(--font-ui); font-weight: 600; font-size: 1.1rem; transition: all 0.2s ease;
-        }
-        .resource-card:hover { border-color: var(--text-main); transform: translateY(-2px); }
-        .resource-card.featured-resource { background: var(--text-main); color: var(--bg-color); border-color: var(--text-main); }
-        .resource-card.featured-resource:hover { opacity: 0.9; }
-
-        footer { padding: 4rem 0; border-top: 1px solid var(--border-color); text-align: center; font-family: var(--font-ui); color: var(--text-muted); font-size: 0.9rem; }
-        footer a { margin: 0 1rem; color: var(--text-muted); }
-        footer a:hover { color: var(--text-main); }
-
-        /* Animations & Responsiveness */
-        .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.8s ease, transform 0.8s ease; }
-        .fade-in.visible { opacity: 1; transform: translateY(0); }
-        @keyframes fadeInList { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        @media (max-width: 1024px) {
-            .grid-4, .grid-3 { grid-template-columns: repeat(2, 1fr); }
-            h1 { font-size: 3rem; }
-        }
-        @media (max-width: 768px) {
-            .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; gap: 2rem; }
-            nav { display: none; } /* Simplified for mobile, could add hamburger */
-            h1 { font-size: 2.2rem; }
-            h2 { font-size: 2rem; }
-            .hero { padding: 4rem 0 3rem; }
-            .section-pad { padding: 3rem 0; }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
         }
     </style>
 </head>
-<body>
+<body class="antialiased bg-math-grid">
 
-    <header id="main-header">
-        <div class="container nav-inner">
-            <a href="#" class="brand"><span>∿</span> Saem Physics</a>
-            <nav>
-                <a href="#lectures">Lectures</a>
-                <a href="#topics">Topics</a>
-                <a href="#playlists">Playlists</a>
-                <a href="#resources">Resources</a>
-                <a href="https://www.youtube.com/@SaemPhysics" target="_blank" class="nav-youtube">YouTube ↗</a>
-            </nav>
-            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
-                <span class="moon-icon">🌙</span>
-                <span class="sun-icon">☀️</span>
-            </button>
-        </div>
-    </header>
-
-    <section class="hero fade-in">
-        <div class="container">
-            <span class="eyebrow">Physics for curious minds</span>
-            <h1>Understand the <em>why</em> behind physics.</h1>
-            <p>Visual explanations, careful problem-solving, and ideas that stay with you long after the formula is forgotten.</p>
-            
-            <div class="tags">
-                <span class="tag-pill">JEE</span>
-                <span class="tag-pill">NEET</span>
-                <span class="tag-pill">CBSE</span>
-                <span class="tag-pill">Bihar Board</span>
-                <span class="tag-pill">NCERT</span>
-            </div>
-            
-            <div class="quick-links">
-                <a href="https://t.me/SaemPhysics" target="_blank" class="quick-link-badge">📱 Telegram Notes</a>
-                <a href="https://forms.gle/xGCHZt8vsd7rDf9k9" target="_blank" class="quick-link-badge">📝 Admission Form</a>
-                <a href="https://meet170.webex.com/meet/saem" target="_blank" class="quick-link-badge">📹 Join Live Class</a>
-            </div>
-        </div>
-    </section>
-
-    <section id="philosophy" class="bg-alt">
-        <div class="container grid-2 fade-in">
-            <div>
-                <span class="eyebrow">01 — The Pedagogy</span>
-                <h2>Make the invisible feel inevitable.</h2>
-                <p>We move from intuition to mathematics to concrete problem-solving. Every equation has a geometric reason to exist. A good diagram is a thought made visible.</p>
-                <a href="#lectures" class="btn btn-primary" style="margin-top: 1rem;">Start Exploring</a>
-            </div>
-            
-            <div class="manim-container">
-                <div class="manim-grid-bg"></div>
-                <div class="manim-text">Manim Animation Placeholder<br><span style="font-size: 0.8rem; opacity: 0.7;">(e.g., Vector Resolution WebM)</span></div>
-                <!-- Lazy Load Target for actual implementation -->
-                <video class="lazy-video" autoplay loop muted playsinline disablePictureInPicture style="width:100%; height:100%; object-fit:cover; position:relative; z-index:2; display:none;">
-                    <!-- <source data-src="assets/animation.webm" type="video/webm"> -->
-                </video>
-            </div>
-        </div>
-    </section>
-
-    <section id="lectures">
-        <div class="container fade-in">
-            <div class="section-header">
-                <span class="eyebrow">Start Here</span>
-                <h2>Featured Lectures</h2>
-                <p>Build the mathematical language required for advanced physics.</p>
-            </div>
-            
-            <div class="grid-2" style="margin-bottom: 4rem;">
-                <a href="#" class="card">
-                    <div class="card-thumb thumb-math"></div>
-                    <div class="card-content">
-                        <span class="eyebrow">Foundations</span>
-                        <h3>Trigonometry Basics</h3>
-                        <p>The essential geometry required to break down complex physics vectors.</p>
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-base/90 backdrop-blur-md border-b border-white/10 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex-shrink-0 flex items-center gap-3 cursor-pointer">
+                    <div class="w-10 h-10 rounded-full bg-surface2 flex items-center justify-center border border-white/10">
+                        <i class="fa-solid fa-dna text-biology text-xl"></i>
                     </div>
-                </a>
+                    <span class="font-serif font-semibold text-2xl tracking-wide text-white">Eric Lander</span>
+                </div>
                 
-                <a href="#" class="card">
-                    <div class="card-thumb thumb-math"></div>
-                    <div class="card-content">
-                        <span class="eyebrow">Foundations</span>
-                        <h3>Maths for Physics: Quadratic</h3>
-                        <p>Understanding parabolic trajectories, kinematics, and quadratic equations.</p>
-                    </div>
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#lectures" class="text-sm font-medium text-gray-300 hover:text-white transition-colors">Lectures</a>
+                    <a href="#testimonials" class="text-sm font-medium text-gray-300 hover:text-white transition-colors">Hall of Fame</a>
+                    <a href="#contact" class="text-sm font-medium text-gray-300 hover:text-white transition-colors">Enquiry</a>
+                    <!-- Google Form CTA -->
+                    <a href="https://docs.google.com/forms" target="_blank" rel="noopener noreferrer" 
+                       class="inline-flex items-center justify-center px-6 py-2.5 border border-transparent text-sm font-medium rounded-full text-white bg-accent hover:bg-blue-600 shadow-[0_0_15px_rgba(59,130,246,0.4)] hover:shadow-[0_0_25px_rgba(59,130,246,0.6)] transition-all duration-300">
+                        Book Free Demo
+                    </a>
+                </div>
+
+                <!-- Mobile menu button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-gray-300 hover:text-white focus:outline-none p-2">
+                        <i class="fa-solid fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu Panel -->
+        <div id="mobile-menu" class="hidden md:hidden bg-surface border-b border-white/10">
+            <div class="px-2 pt-2 pb-4 space-y-1 sm:px-3 flex flex-col">
+                <a href="#lectures" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-white/5">Lectures</a>
+                <a href="#testimonials" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-white/5">Hall of Fame</a>
+                <a href="#contact" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-white/5">Enquiry</a>
+                <a href="https://docs.google.com/forms" target="_blank" rel="noopener noreferrer" 
+                   class="block px-3 py-2 mt-4 text-center rounded-md text-base font-medium text-white bg-accent hover:bg-blue-600">
+                    Book Free Demo
                 </a>
             </div>
+        </div>
+    </nav>
 
-            <div class="section-header">
-                <span class="eyebrow">Video Archive</span>
-                <h2>Concept Teardowns & Solutions</h2>
+    <!-- Hero Section -->
+    <section class="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-surface2 border border-white/10 text-xs font-medium text-biology mb-8">
+                <span class="relative flex h-2 w-2">
+                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-biology opacity-75"></span>
+                  <span class="relative inline-flex rounded-full h-2 w-2 bg-biology"></span>
+                </span>
+                New Batches Starting Soon
             </div>
+            
+            <h1 class="font-serif text-5xl md:text-7xl font-medium tracking-tight mb-6 leading-tight">
+                Master the Secrets of <br class="hidden md:block" />
+                <span class="text-gradient italic">Life Sciences</span>
+            </h1>
+            
+            <p class="mt-4 text-lg md:text-xl text-gray-400 max-w-2xl mx-auto font-light mb-10">
+                Optimized curriculum for NEET & MIT aspirants. Dive deep into the molecular fundamentals with world-class pedagogical methods inspired by top institutions.
+            </p>
+            
+            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                <a href="https://docs.google.com/forms" target="_blank" rel="noopener noreferrer" 
+                   class="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 text-base font-medium rounded-full text-white bg-accent hover:bg-blue-600 shadow-[0_0_20px_rgba(59,130,246,0.3)] transition-all hover:scale-105">
+                    Book a Free Demo Class <i class="fa-solid fa-arrow-right ml-2"></i>
+                </a>
+                <a href="#lectures" class="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 text-base font-medium rounded-full text-gray-300 bg-surface2 hover:bg-white/10 border border-white/5 transition-all">
+                    Explore Lectures
+                </a>
+            </div>
+        </div>
+        
+        <!-- Decorative background elements -->
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-accent/5 rounded-full blur-[100px] -z-10 pointer-events-none"></div>
+    </section>
 
-            <div class="grid-4">
-                <a href="#" class="card"><div class="card-thumb thumb-mech"></div><div class="card-content"><h3>JEE Advance Paper</h3><p>Detailed Solution</p></div></a>
-                <a href="#" class="card"><div class="card-thumb thumb-prob"></div><div class="card-content"><h3>JEE Mains Paper</h3><p>Detailed Solution</p></div></a>
-                <a href="#" class="card"><div class="card-thumb thumb-rev"></div><div class="card-content"><h3>NEET Physics</h3><p>Paper Solution</p></div></a>
-                <a href="#" class="card"><div class="card-thumb thumb-mech"></div><div class="card-content"><h3>Newton's Law</h3><p>Mechanics</p></div></a>
-                <a href="#" class="card"><div class="card-thumb thumb-math"></div><div class="card-content"><h3>Angular Momentum</h3><p>Rotational Dynamics</p></div></a>
-                <a href="#" class="card"><div class="card-thumb thumb-prob"></div><div class="card-content"><h3>Refraction of Light</h3><p>Optics</p></div></a>
-                <a href="#" class="card"><div class="card-thumb thumb-rev"></div><div class="card-content"><h3>CBSE 12th PYQ</h3><p>Board Prep</p></div></a>
-                <a href="#" class="card"><div class="card-thumb thumb-mech"></div><div class="card-content"><h3>Bihar Board 12th</h3><p>PYQ Solutions</p></div></a>
-                <a href="#" class="card"><div class="card-thumb thumb-math"></div><div class="card-content"><h3>NCERT Clear</h3><p>Textbook solutions</p></div></a>
+    <!-- Lectures Section (YouTube Embed) -->
+    <section id="lectures" class="py-20 border-t border-white/5 bg-surface/30">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="font-serif text-3xl md:text-4xl font-medium text-white mb-4">Featured Lectures</h2>
+                <div class="h-1 w-20 bg-accent mx-auto rounded-full opacity-70"></div>
+                <p class="mt-4 text-gray-400 font-light">Experience the MIT 7.012 Fundamentals of Biology series.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                <!-- Main Featured Playlist Video -->
+                <div class="lg:col-span-8 rounded-2xl overflow-hidden shadow-2xl border border-white/10 bg-black aspect-video relative group">
+                    <!-- Embed YouTube Playlist -->
+                    <iframe 
+                        class="absolute top-0 left-0 w-full h-full"
+                        src="https://www.youtube.com/embed/videoseries?list=PLF83B8D8C87426E44" 
+                        title="Eric Lander Biology Lectures" 
+                        frameborder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                        allowfullscreen>
+                    </iframe>
+                </div>
+                
+                <!-- Course Highlights / Mini Curriculum -->
+                <div class="lg:col-span-4 bg-surface2 rounded-2xl p-8 border border-white/5">
+                    <h3 class="font-serif text-xl text-white mb-6">Curriculum Highlights</h3>
+                    <ul class="space-y-6">
+                        <li class="flex gap-4">
+                            <div class="flex-shrink-0 w-10 h-10 rounded-full bg-blue-500/10 flex items-center justify-center text-blue-400">
+                                01
+                            </div>
+                            <div>
+                                <h4 class="text-gray-200 font-medium">Genetics & Inheritance</h4>
+                                <p class="text-sm text-gray-400 mt-1">Mendelian principles to complex genomic structures.</p>
+                            </div>
+                        </li>
+                        <li class="flex gap-4">
+                            <div class="flex-shrink-0 w-10 h-10 rounded-full bg-biology/10 flex items-center justify-center text-biology">
+                                02
+                            </div>
+                            <div>
+                                <h4 class="text-gray-200 font-medium">Molecular Biology</h4>
+                                <p class="text-sm text-gray-400 mt-1">DNA replication, transcription, and translation.</p>
+                            </div>
+                        </li>
+                        <li class="flex gap-4">
+                            <div class="flex-shrink-0 w-10 h-10 rounded-full bg-purple-500/10 flex items-center justify-center text-purple-400">
+                                03
+                            </div>
+                            <div>
+                                <h4 class="text-gray-200 font-medium">Cellular Dynamics</h4>
+                                <p class="text-sm text-gray-400 mt-1">Metabolism, signaling pathways, and cell cycles.</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
     </section>
 
-    <section id="topics" class="bg-alt">
-        <div class="container fade-in">
-            <div class="section-header">
-                <span class="eyebrow">Curriculum</span>
-                <h2>The Library</h2>
-                <p>Deep dives into specific branches of physics, accompanied by visual proofs.</p>
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="py-20 border-t border-white/5 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-16">
+                <h2 class="font-serif text-3xl md:text-4xl font-medium text-white mb-4">Hall of Fame</h2>
+                <div class="h-1 w-20 bg-biology mx-auto rounded-full opacity-70"></div>
+                <p class="mt-4 text-gray-400 font-light">Join the ranks of our top-performing alumni.</p>
             </div>
 
-            <div class="grid-3">
-                <div class="card" style="cursor: default;">
-                    <div class="card-content">
-                        <h3>Mechanics</h3>
-                        <p>Kinematics, Laws of Motion, and dynamics.</p>
-                        <div class="manim-container small">
-                            <div class="manim-grid-bg"></div><div class="manim-text">Manim: Projectile<br>Motion</div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Testimonial 1 -->
+                <div class="bg-surface2 rounded-2xl p-8 border border-white/5 relative overflow-hidden group hover:-translate-y-2 transition-transform duration-300">
+                    <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                        <i class="fa-solid fa-quote-right text-6xl text-white"></i>
+                    </div>
+                    <div class="flex items-center gap-4 mb-6 relative z-10">
+                        <img src="https://placehold.co/100x100/1e293b/ffffff?text=AK" alt="Aarav K." class="w-16 h-16 rounded-full border-2 border-biology object-cover">
+                        <div>
+                            <h4 class="text-lg font-medium text-white">Aarav K.</h4>
+                            <p class="text-sm text-accent">NEET AIR 42</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-400 font-light italic leading-relaxed relative z-10">
+                        "The way Eric breaks down complex molecular pathways into elegant visual stories completely changed my perspective on Biology. I scored 355/360 in NEET Biology."
+                    </p>
+                    <div class="mt-6 pt-6 border-t border-white/10 flex justify-between items-center relative z-10">
+                        <span class="text-xs text-gray-500 uppercase tracking-wider">Board Exams</span>
+                        <span class="font-serif font-medium text-lg text-white">98.4%</span>
+                    </div>
+                </div>
+
+                <!-- Testimonial 2 -->
+                <div class="bg-surface2 rounded-2xl p-8 border border-white/5 relative overflow-hidden group hover:-translate-y-2 transition-transform duration-300">
+                    <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                        <i class="fa-solid fa-quote-right text-6xl text-white"></i>
+                    </div>
+                    <div class="flex items-center gap-4 mb-6 relative z-10">
+                        <img src="https://placehold.co/100x100/1e293b/ffffff?text=SM" alt="Sarah M." class="w-16 h-16 rounded-full border-2 border-biology object-cover">
+                        <div>
+                            <h4 class="text-lg font-medium text-white">Sarah M.</h4>
+                            <p class="text-sm text-accent">MIT Early Action Admit</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-400 font-light italic leading-relaxed relative z-10">
+                        "The foundational understanding I gained from these lectures helped me crack the USABO and ultimately secure my admission into MIT's biological engineering program."
+                    </p>
+                    <div class="mt-6 pt-6 border-t border-white/10 flex justify-between items-center relative z-10">
+                        <span class="text-xs text-gray-500 uppercase tracking-wider">AP Biology</span>
+                        <span class="font-serif font-medium text-lg text-white">Score: 5</span>
+                    </div>
+                </div>
+
+                <!-- Testimonial 3 -->
+                <div class="bg-surface2 rounded-2xl p-8 border border-white/5 relative overflow-hidden group hover:-translate-y-2 transition-transform duration-300">
+                    <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                        <i class="fa-solid fa-quote-right text-6xl text-white"></i>
+                    </div>
+                    <div class="flex items-center gap-4 mb-6 relative z-10">
+                        <img src="https://placehold.co/100x100/1e293b/ffffff?text=RJ" alt="Rohan J." class="w-16 h-16 rounded-full border-2 border-biology object-cover">
+                        <div>
+                            <h4 class="text-lg font-medium text-white">Rohan J.</h4>
+                            <p class="text-sm text-accent">NEET AIR 115</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-400 font-light italic leading-relaxed relative z-10">
+                        "Unlike standard coaching setups that emphasize rote memorization, this platform focuses on 'why' and 'how'. The concepts stick with you forever."
+                    </p>
+                    <div class="mt-6 pt-6 border-t border-white/10 flex justify-between items-center relative z-10">
+                        <span class="text-xs text-gray-500 uppercase tracking-wider">Board Exams</span>
+                        <span class="font-serif font-medium text-lg text-white">96.8%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Enquiry Form Section -->
+    <section id="contact" class="py-20 border-t border-white/5 bg-surface/30">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-surface2 rounded-3xl p-8 md:p-12 border border-white/10 shadow-2xl relative overflow-hidden">
+                <!-- Decorative element -->
+                <div class="absolute top-0 right-0 w-64 h-64 bg-biology/10 rounded-full blur-[80px] -z-0"></div>
+                
+                <div class="relative z-10">
+                    <div class="text-center mb-10">
+                        <h2 class="font-serif text-3xl font-medium text-white">Start Your Journey</h2>
+                        <p class="mt-2 text-gray-400 font-light">Have questions? Fill out the form and our team will get back to you.</p>
+                    </div>
+
+                    <!-- Web3Forms Form -->
+                    <form action="https://api.web3forms.com/submit" method="POST" class="space-y-6">
+                        <!-- Replace with your actual Web3Forms Access Key -->
+                        <input type="hidden" name="access_key" value="YOUR_ACCESS_KEY_HERE">
+                        <!-- Redirect after submission (optional) -->
+                        <input type="hidden" name="redirect" value="https://web3forms.com/success">
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label for="name" class="block text-sm font-medium text-gray-300 mb-2">Student Name</label>
+                                <input type="text" name="name" id="name" required
+                                    class="w-full bg-base border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition-all"
+                                    placeholder="Jane Doe">
+                            </div>
+                            <div>
+                                <label for="mobile" class="block text-sm font-medium text-gray-300 mb-2">Mobile Number</label>
+                                <input type="tel" name="mobile" id="mobile" required
+                                    class="w-full bg-base border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition-all"
+                                    placeholder="+91 98765 43210">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="course" class="block text-sm font-medium text-gray-300 mb-2">Select Course</label>
+                            <div class="relative">
+                                <select name="course" id="course" required
+                                    class="w-full bg-base border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent appearance-none transition-all">
+                                    <option value="" disabled selected class="text-gray-500">Choose your target...</option>
+                                    <option value="NEET Prep (11th/12th)">NEET Prep (11th & 12th)</option>
+                                    <option value="NEET Dropper Batch">NEET Dropper Batch</option>
+                                    <option value="MIT/Ivy League AP Biology">MIT/Ivy League AP Biology</option>
+                                    <option value="Foundation (9th/10th)">Foundation (9th & 10th)</option>
+                                </select>
+                                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-gray-400">
+                                    <i class="fa-solid fa-chevron-down text-sm"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <button type="submit" 
+                                class="w-full flex justify-center py-4 px-4 border border-transparent rounded-xl shadow-sm text-base font-medium text-white bg-biology hover:bg-emerald-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-surface2 focus:ring-biology transition-all hover:shadow-[0_0_15px_rgba(16,185,129,0.4)]">
+                                Submit Enquiry
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-base border-t border-white/10 pt-16 pb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-12 mb-12">
+                
+                <!-- Left: Info & Contact -->
+                <div class="md:col-span-4">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-8 h-8 rounded-full bg-surface2 flex items-center justify-center border border-white/10">
+                            <i class="fa-solid fa-dna text-biology"></i>
+                        </div>
+                        <span class="font-serif font-semibold text-xl text-white">Eric Lander Bio</span>
+                    </div>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-6">
+                        Bridging the gap between standard curriculum and true scientific understanding. Shaping the next generation of medical professionals and researchers.
+                    </p>
+                    
+                    <div class="space-y-4">
+                        <div class="flex items-start gap-3">
+                            <i class="fa-solid fa-location-dot mt-1 text-accent"></i>
+                            <span class="text-gray-300 text-sm">
+                                415 Main Street, <br>
+                                Cambridge, MA 02142<br>
+                                (Simulated Location)
+                            </span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <i class="fa-solid fa-phone text-accent"></i>
+                            <a href="tel:+16175550198" class="text-gray-300 text-sm hover:text-white transition-colors">
+                                +1 (617) 555-0198
+                            </a>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <i class="fa-solid fa-envelope text-accent"></i>
+                            <a href="mailto:admissions@ericlanderbio.edu" class="text-gray-300 text-sm hover:text-white transition-colors">
+                                admissions@ericlanderbio.edu
+                            </a>
                         </div>
                     </div>
                 </div>
 
-                <div class="card" style="cursor: default;">
-                    <div class="card-content">
-                        <h3>Mathematical Tools</h3>
-                        <p>Calculus, Vectors, and Algebra for Physics.</p>
-                        <div class="manim-container small">
-                            <div class="manim-grid-bg"></div><div class="manim-text">Manim: Derivative<br>Visualization</div>
-                        </div>
+                <!-- Middle: Map Embed -->
+                <div class="md:col-span-5">
+                    <h4 class="text-white font-medium mb-6">Our Location</h4>
+                    <div class="w-full h-48 rounded-xl overflow-hidden border border-white/10 opacity-80 hover:opacity-100 transition-opacity">
+                        <iframe 
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1m3!1d2948.163351980313!2d-71.09349882352825!3d42.36040853508493!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89e370aaf53a8a31%3A0xcb1b51e44f128be2!2sMassachusetts%20Institute%20of%20Technology!5e0!3m2!1sen!2sus!4v1715000000000!5m2!1sen!2sus" 
+                            width="100%" 
+                            height="100%" 
+                            style="border:0;" 
+                            allowfullscreen="" 
+                            loading="lazy" 
+                            referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
                     </div>
                 </div>
 
-                <div class="card" style="cursor: default;">
-                    <div class="card-content">
-                        <h3>Work, Energy, Power</h3>
-                        <p>Conservation laws and energy transformations.</p>
-                        <div class="manim-container small">
-                            <div class="manim-grid-bg"></div><div class="manim-text">Manim: Energy<br>Conservation</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card" style="cursor: default;">
-                    <div class="card-content">
-                        <h3>Electrostatics</h3>
-                        <p>Electric fields, potential, and Gauss's Law.</p>
-                        <div class="manim-container small">
-                            <div class="manim-grid-bg"></div><div class="manim-text">Manim: Field Lines</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card" style="cursor: default;">
-                    <div class="card-content">
-                        <h3>Gravitation</h3>
-                        <p>Kepler's laws, orbits, and gravitational fields.</p>
-                        <div class="manim-container small">
-                            <div class="manim-grid-bg"></div><div class="manim-text">Manim: Orbits</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card" style="cursor: default;">
-                    <div class="card-content">
-                        <h3>Modern Physics</h3>
-                        <p>Quantum, Atoms, Nuclei, and Dual Nature.</p>
-                        <div class="manim-container small">
-                            <div class="manim-grid-bg"></div><div class="manim-text">Manim: Photoelectric</div>
-                        </div>
+                <!-- Right: Social Links -->
+                <div class="md:col-span-3">
+                    <h4 class="text-white font-medium mb-6">Connect With Us</h4>
+                    <div class="flex flex-col space-y-4">
+                        <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 text-gray-400 hover:text-[#FF0000] transition-colors group">
+                            <div class="w-10 h-10 rounded-full bg-surface2 group-hover:bg-white/10 flex items-center justify-center transition-colors">
+                                <i class="fa-brands fa-youtube text-lg"></i>
+                            </div>
+                            <span class="text-sm font-medium">YouTube</span>
+                        </a>
+                        <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 text-gray-400 hover:text-[#E1306C] transition-colors group">
+                            <div class="w-10 h-10 rounded-full bg-surface2 group-hover:bg-white/10 flex items-center justify-center transition-colors">
+                                <i class="fa-brands fa-instagram text-lg"></i>
+                            </div>
+                            <span class="text-sm font-medium">Instagram</span>
+                        </a>
+                        <a href="https://telegram.org" target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 text-gray-400 hover:text-[#0088cc] transition-colors group">
+                            <div class="w-10 h-10 rounded-full bg-surface2 group-hover:bg-white/10 flex items-center justify-center transition-colors">
+                                <i class="fa-brands fa-telegram text-lg"></i>
+                            </div>
+                            <span class="text-sm font-medium">Telegram</span>
+                        </a>
+                        <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 text-gray-400 hover:text-[#1877F2] transition-colors group">
+                            <div class="w-10 h-10 rounded-full bg-surface2 group-hover:bg-white/10 flex items-center justify-center transition-colors">
+                                <i class="fa-brands fa-facebook-f text-lg"></i>
+                            </div>
+                            <span class="text-sm font-medium">Facebook</span>
+                        </a>
                     </div>
                 </div>
             </div>
             
-            <div style="margin-top: 3rem; text-align: center;">
-                <a href="#" class="btn btn-primary">📚 View Books for Toppers Recommendation</a>
+            <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+                <p class="text-gray-500 text-xs">
+                    &copy; 2026 Eric Lander Biology. All rights reserved. 
+                </p>
+                <div class="flex gap-4 text-xs text-gray-500">
+                    <a href="#" class="hover:text-white transition-colors">Privacy Policy</a>
+                    <a href="#" class="hover:text-white transition-colors">Terms of Service</a>
+                </div>
             </div>
-        </div>
-    </section>
-
-    <section id="playlists">
-        <div class="container fade-in">
-            <div class="section-header center">
-                <span class="eyebrow">Learning Paths</span>
-                <h2>Complete Playlists</h2>
-            </div>
-            
-            <div class="filter-container" id="playlist-filters">
-                <button class="filter-btn active" data-filter="all">All</button>
-                <button class="filter-btn" data-filter="jee">JEE</button>
-                <button class="filter-btn" data-filter="neet">NEET</button>
-                <button class="filter-btn" data-filter="11th">11th Grade</button>
-                <button class="filter-btn" data-filter="12th">12th Grade</button>
-                <button class="filter-btn" data-filter="revision">Quick Revision</button>
-            </div>
-
-            <ul class="playlist-list" id="playlist-grid">
-                <li data-tags="jee"><a href="#" class="playlist-link">JEE Advance Solutions <span class="playlist-tag">JEE</span><span class="meta">Full Series</span></a></li>
-                <li data-tags="neet"><a href="#" class="playlist-link">NEET Exam Solutions <span class="playlist-tag">NEET</span><span class="meta">Full Series</span></a></li>
-                <li data-tags="12th"><a href="#" class="playlist-link">12th DEEP Physics <span class="playlist-tag">12th</span><span class="meta">Curriculum</span></a></li>
-                <li data-tags="11th"><a href="#" class="playlist-link">11th Morning Physics <span class="playlist-tag">11th</span><span class="meta">Live Recordings</span></a></li>
-                <li data-tags="11th"><a href="#" class="playlist-link">11th Deep Physics <span class="playlist-tag">11th</span><span class="meta">Curriculum</span></a></li>
-                <li data-tags="all"><a href="#" class="playlist-link">Evening Physics Batch <span class="playlist-tag">General</span><span class="meta">Live Recordings</span></a></li>
-                <li data-tags="11th revision"><a href="#" class="playlist-link">System of Particles <span class="playlist-tag">Revision</span><span class="meta">Quick Summary</span></a></li>
-                <li data-tags="all"><a href="#" class="playlist-link">Topper's Strategy <span class="playlist-tag">Guide</span><span class="meta">Motivation & Prep</span></a></li>
-                <li data-tags="jee"><a href="#" class="playlist-link">Clear JEE Physics <span class="playlist-tag">JEE</span><span class="meta">Concept Series</span></a></li>
-                <li data-tags="neet"><a href="#" class="playlist-link">Clear NEET Physics <span class="playlist-tag">NEET</span><span class="meta">Concept Series</span></a></li>
-                <li data-tags="revision"><a href="#" class="playlist-link">10th Quick Revision <span class="playlist-tag">Revision</span><span class="meta">Board Prep</span></a></li>
-                <li data-tags="revision"><a href="#" class="playlist-link">9th Quick Revision <span class="playlist-tag">Revision</span><span class="meta">Foundation</span></a></li>
-                <li data-tags="12th"><a href="#" class="playlist-link">CBSE 12th Board Exam <span class="playlist-tag">12th</span><span class="meta">PYQ & Guess</span></a></li>
-                <li data-tags="12th"><a href="#" class="playlist-link">Bihar Board Exam Guess <span class="playlist-tag">12th</span><span class="meta">Important Q's</span></a></li>
-            </ul>
-        </div>
-    </section>
-
-    <section id="resources" class="bg-alt">
-        <div class="container fade-in">
-            <div class="section-header">
-                <span class="eyebrow">Connect & Enroll</span>
-                <h2>Resources & Community</h2>
-            </div>
-            
-            <div class="grid-2">
-                <a href="https://forms.gle/xGCHZt8vsd7rDf9k9" target="_blank" class="resource-card featured-resource">
-                    <span>📝 Apply for Admission (Form)</span>
-                    <span>↗</span>
-                </a>
-                <a href="https://meet170.webex.com/meet/saem" target="_blank" class="resource-card featured-resource" style="background: var(--accent); border-color: var(--accent);">
-                    <span>📹 Join Live Class (Webex)</span>
-                    <span>↗</span>
-                </a>
-                <a href="https://t.me/SaemPhysics" target="_blank" class="resource-card">
-                    <span>📱 Join Telegram for Notes</span>
-                    <span>↗</span>
-                </a>
-                <a href="mailto:msaemsir@gmail.com" class="resource-card">
-                    <span>✉️ Email msaemsir@gmail.com</span>
-                    <span>↗</span>
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <footer>
-        <div class="container">
-            <p style="font-size: 1.1rem; font-weight: 600; color: var(--text-main); margin-bottom: 0.5rem;">Saem Physics</p>
-            <p style="margin-bottom: 1.5rem;">Make the invisible feel inevitable.</p>
-            <div>
-                <a href="https://www.youtube.com/@SaemPhysics" target="_blank">YouTube</a>
-                <a href="https://t.me/SaemPhysics" target="_blank">Telegram</a>
-                <a href="mailto:msaemsir@gmail.com">Contact</a>
-            </div>
-            <p style="margin-top: 2rem; font-size: 0.8rem; opacity: 0.6;">© 2026 Saem Physics. All rights reserved.</p>
         </div>
     </footer>
 
+    <!-- Floating WhatsApp Button -->
+    <a href="https://wa.me/16175550198" target="_blank" rel="noopener noreferrer" class="whatsapp-float pulse" title="Chat on WhatsApp">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
+
+    <!-- Scripts -->
     <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            
-            // 1. Dark/Light Mode Theme Toggle
-            const themeToggle = document.getElementById('theme-toggle');
-            const htmlElement = document.documentElement;
-            
-            // Check local storage for preference
-            const savedTheme = localStorage.getItem('theme');
-            if (savedTheme) {
-                htmlElement.setAttribute('data-theme', savedTheme);
-            } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-                htmlElement.setAttribute('data-theme', 'dark'); // System preference fallback
+        // Mobile Menu Toggle
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+
+        btn.addEventListener('click', () => {
+            menu.classList.toggle('hidden');
+        });
+
+        // Close mobile menu on link click
+        document.querySelectorAll('#mobile-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                menu.classList.add('hidden');
+            });
+        });
+
+        // Add scrolled state to Navbar
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 20) {
+                nav.classList.add('shadow-lg');
+            } else {
+                nav.classList.remove('shadow-lg');
             }
-
-            themeToggle.addEventListener('click', () => {
-                const currentTheme = htmlElement.getAttribute('data-theme');
-                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-                htmlElement.setAttribute('data-theme', newTheme);
-                localStorage.setItem('theme', newTheme);
-            });
-
-            // 2. Sticky Header Effect
-            const header = document.getElementById('main-header');
-            window.addEventListener('scroll', () => {
-                if (window.scrollY > 20) {
-                    header.classList.add('scrolled');
-                } else {
-                    header.classList.remove('scrolled');
-                }
-            });
-
-            // 3. Smooth Scrolling for Nav Links
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
-                    const targetId = this.getAttribute('href');
-                    if (targetId === '#') return;
-                    
-                    const targetElement = document.querySelector(targetId);
-                    if (targetElement) {
-                        e.preventDefault();
-                        const headerHeight = header.offsetHeight;
-                        const elementPosition = targetElement.getBoundingClientRect().top;
-                        const offsetPosition = elementPosition + window.pageYOffset - headerHeight - 20; // 20px extra padding
-
-                        window.scrollTo({
-                            top: offsetPosition,
-                            behavior: "smooth"
-                        });
-                    }
-                });
-            });
-
-            // 4. Fade-in on Scroll (Intersection Observer)
-            const fadeElements = document.querySelectorAll('.fade-in');
-            const fadeObserver = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                        fadeObserver.unobserve(entry.target); // Only animate once
-                    }
-                });
-            }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
-
-            fadeElements.forEach((el) => fadeObserver.observe(el));
-
-            // 5. Lazy Load Manim Videos (Intersection Observer)
-            // Note: Currently set up to activate real videos once <source> tags are uncommented
-            const videoElements = document.querySelectorAll('.lazy-video');
-            const videoObserver = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    const video = entry.target;
-                    if (entry.isIntersecting) {
-                        video.style.display = 'block';
-                        const sources = video.querySelectorAll('source');
-                        let hasSource = false;
-                        sources.forEach(source => {
-                            if (!source.src && source.dataset.src) {
-                                source.src = source.dataset.src;
-                                hasSource = true;
-                            }
-                        });
-                        if (hasSource && video.readyState === 0) { 
-                            video.load(); 
-                        }
-                        if (hasSource) {
-                            video.play().catch(e => console.log("Autoplay prevented:", e));
-                        }
-                    } else {
-                        video.pause();
-                    }
-                });
-            }, { threshold: 0.2 });
-
-            videoElements.forEach((vid) => videoObserver.observe(vid));
-
-            // 6. Playlist Filtering Logic
-            const filterBtns = document.querySelectorAll('.filter-btn');
-            const playlistItems = document.querySelectorAll('#playlist-grid li');
-
-            filterBtns.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    // Remove active class from all
-                    filterBtns.forEach(b => b.classList.remove('active'));
-                    // Add active class to clicked
-                    btn.classList.add('active');
-
-                    const filterValue = btn.getAttribute('data-filter');
-
-                    playlistItems.forEach(item => {
-                        const tags = item.getAttribute('data-tags');
-                        
-                        // Reset animation
-                        item.style.animation = 'none';
-                        item.offsetHeight; // Trigger reflow
-                        
-                        if (filterValue === 'all' || tags.includes(filterValue)) {
-                            item.style.display = 'block';
-                            item.style.animation = 'fadeInList 0.4s ease forwards';
-                        } else {
-                            item.style.display = 'none';
-                        }
-                    });
-                });
-            });
         });
     </script>
 </body>
 </html>
+```
